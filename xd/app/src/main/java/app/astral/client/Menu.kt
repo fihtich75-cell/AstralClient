@@ -73,7 +73,9 @@ class Menu(private val ctx: Context, private val wm: WindowManager, private val 
     private var creating = false
     private var renaming: String? = null
 
-    val isOpen: Boolean get() = root != null
+    private val clickGui = ClickGui(ctx, wm, host)
+
+    val isOpen: Boolean get() = root != null || clickGui.isOpen
 
     private fun d(v: Int) = ctx.ui(v)
 
@@ -223,6 +225,7 @@ class Menu(private val ctx: Context, private val wm: WindowManager, private val 
     }
 
     fun close() {
+        clickGui.close()
         val r = root ?: return
         val p = lp
         val blur = blurMode
@@ -254,6 +257,7 @@ class Menu(private val ctx: Context, private val wm: WindowManager, private val 
     }
 
     fun closeNow() {
+        clickGui.closeNow()
         val r = root ?: return
         detachState()
         try { wm.removeView(r) } catch (_: Exception) {}
@@ -533,7 +537,11 @@ class Menu(private val ctx: Context, private val wm: WindowManager, private val 
         b.addView(section(Str.t("ping_srv")))
         b.addView(textField("${Cfg.pingHost}:${Cfg.pingPort}", "host:19132", 80) { commitPing(it) }, LinearLayout.LayoutParams(M, W))
 
-        b.addView(chip(Str.t("stop_client"), false) { host.stopClient() }, LinearLayout.LayoutParams(M, W).apply { topMargin = d(16) })
+        b.addView(chip(Str.t("click_gui"), true) {
+            close()
+            clickGui.open()
+        }, LinearLayout.LayoutParams(M, W).apply { topMargin = d(16) })
+        b.addView(chip(Str.t("stop_client"), false) { host.stopClient() }, LinearLayout.LayoutParams(M, W).apply { topMargin = d(8) })
     }
 
     private fun setAccent(c: Int) {

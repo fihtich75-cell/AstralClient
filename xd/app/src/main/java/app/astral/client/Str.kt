@@ -24,6 +24,7 @@ object Str {
         "perf" to "Режим производительности", "edge" to "Свайп от левого края",
         "ping_srv" to "Сервер для пинга (адрес:порт)", "ui_scale" to "Масштаб интерфейса",
         "stop_client" to "Остановить клиент",
+        "click_gui" to "Click GUI", "done" to "Готово", "gui_general" to "Основное",
         // profiles / configs
         "profiles" to "Профили", "profile_default" to "По умолчанию", "p_new" to "Новый профиль", "p_create" to "Создать",
         "p_ok" to "ОК", "p_name_hint" to "Название профиля", "p_exists" to "Такое имя уже занято",
@@ -77,6 +78,7 @@ object Str {
         "perf" to "Performance mode", "edge" to "Swipe from left edge",
         "ping_srv" to "Ping server (host:port)", "ui_scale" to "UI Scale",
         "stop_client" to "Stop client",
+        "click_gui" to "Click GUI", "done" to "Done", "gui_general" to "General",
         "profiles" to "Profiles", "profile_default" to "Default", "p_new" to "New profile", "p_create" to "Create",
         "p_ok" to "OK", "p_name_hint" to "Profile name", "p_exists" to "That name is already taken",
         "p_empty" to "Enter a profile name", "p_limit" to "At most 16 profiles",
