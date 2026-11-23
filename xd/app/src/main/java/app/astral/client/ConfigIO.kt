@@ -10,7 +10,7 @@ import android.provider.MediaStore
 import java.io.File
 
 /**
- * Export / import of profiles as Download/AstralClient/*.json.
+ * Export / import of profiles as .json files in Download/AstralClient.
  * Export writes the active profile; import validates the file and adds it as a NEW profile (nothing is overwritten).
  * The license and the permission flags are never written and never read.
  */
