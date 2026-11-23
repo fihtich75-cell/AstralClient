@@ -1,0 +1,48 @@
+name: build-apk
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Accept Android SDK licenses
+        run: |
+          SDK="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          SM="$(ls -d "$SDK"/cmdline-tools/*/bin/sdkmanager | head -1)"
+          yes | "$SM" --sdk_root="$SDK" --licenses > /dev/null || true
+          echo "sdk.dir=$SDK" > xd/local.properties
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+
+      - name: Build
+        run: gradle -p xd --no-daemon assembleRelease
+
+      - name: Rename
+        run: cp xd/app/build/outputs/apk/release/app-release.apk AstralClient.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AstralClient-apk
+          path: AstralClient.apk
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v2.1.${{ github.run_number }}
+          files: AstralClient.apk
